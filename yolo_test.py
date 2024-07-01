@@ -1,5 +1,7 @@
 import cv2
 from ultralytics import YOLO
+
+from inference_sdk import InferenceHTTPClient
 trash_dicc = {'battery': "yellow",
     'can': "grey",
     'cardboard': "blue",
@@ -13,9 +15,17 @@ trash_dicc = {'battery': "yellow",
 }
 # apply yolo with my camera
 cap = cv2.VideoCapture(0)
-model = YOLO('best.pt')
-classes = model.names
+#model = YOLO('best.pt')
+#classes = model.names
 acc = 0
+
+
+
+CLIENT = InferenceHTTPClient(
+    api_url="https://detect.roboflow.com",
+    api_key="edaGCjsVTBNpdktOlNxH"
+)
+
 
 while True:
     ret, frame = cap.read()
@@ -25,7 +35,7 @@ while True:
     #cv2.imshow('frame', frame)
     if acc == 60: 
         acc = 0
-        
+        '''
         results = model(frame)
         rectangle_thickness = 2
         text_thickness = 2
@@ -57,6 +67,11 @@ while True:
                         (middle_x, middle_y),
                         cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), text_thickness)
             print(bin)
+            '''
+        
+        result = CLIENT.infer(frame, model_id="garbage-classification-3/2")
+
+        print(result)
             
     
     cv2.imshow('frame', frame)
