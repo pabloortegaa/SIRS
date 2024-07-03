@@ -12,6 +12,7 @@ def initialInductive(pin):
   GPIO.setup(GPIOpin,GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
   print("Finished Initiation")
   print(GPIOpin)
+  
 
 # Detect Object
 def detectObject():
@@ -22,6 +23,8 @@ def detectObject():
     if state==0:
       print("Object Detected")
       time.sleep(1)
+      return True
+    return False
 
 
 # test module
