@@ -1,7 +1,7 @@
 import cv2
 from ultralytics import YOLO
-
 from inference_sdk import InferenceHTTPClient
+import time
 trash_dicc = {'battery': "yellow",
     'can': "grey",
     'cardboard': "blue",
@@ -12,6 +12,15 @@ trash_dicc = {'battery': "yellow",
     'plastic bottle': "yellow",
     'plastic bottle cap': "yellow",
     'pop tab': "yellow"
+}
+
+trash_dicc = {'BIODEGRADABLE': "brown",
+                'CARDBOARD': "blue",
+                "CLOTH": "blue",
+                "GLASS": "blue",
+                "METAL": "yellow",
+                "PAPER": "blue",
+                "PLASTIC": "yellow"
 }
 # apply yolo with my camera
 cap = cv2.VideoCapture(0)
@@ -70,8 +79,28 @@ while True:
             '''
         
         result = CLIENT.infer(frame, model_id="garbage-classification-3/2")
-
         print(result)
+        if result["predictions"] != []:
+            max_pred = max(result["predictions"], key=lambda x: x["confidence"])
+            print(max_pred)
+            # draw the class in the middle of the image
+            image_height, image_width, _ = frame.shape
+            middle_x = int(image_width / 2)
+            middle_y = int(image_height / 2)
+            xx = int(max_pred["x"])
+            yy = int(max_pred["y"])
+            print(max_pred["class"])
+            print(trash_dicc[max_pred["class"]])
+
+
+            
+            cv2.putText(frame, max_pred['class'], (xx, yy),
+                        cv2.FONT_HERSHEY_PLAIN, 1, (255, 255, 0), 2)
+            
+            time.sleep(2)
+
+
+        #print(result)
             
     
     cv2.imshow('frame', frame)

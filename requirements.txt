@@ -1,0 +1,3 @@
+inference-sdk
+ultralytics
+opencv-python
