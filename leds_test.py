@@ -20,14 +20,14 @@ def turn_led(led_pin):
     GPIO.output(led_pin,GPIO.LOW)
 
 
-def waiting(led_pin):
+async def waiting(led_pin):
     GPIO.setup(led_pin ,GPIO.OUT)
     print("LED on")
     GPIO.output(led_pin,GPIO.HIGH)
-    time.sleep(0.5)
+    await time.sleep(0.5)
     print("LED off")
     GPIO.output(led_pin,GPIO.LOW)
-    time.sleep(0.5)
+    await time.sleep(0.5)
 
 
 
@@ -40,17 +40,19 @@ turn_led(green_pin)
 
 
 
-initialInductive(blue_proximity_pin)
+#initialInductive(blue_proximity_pin)
 check = True
 while True:
     
-    while not detectObject() and check:
-        waiting(white_pin)
+    #while not detectObject() and check:
+    waiting(white_pin)
+    waiting(brown_pin)
         
-    else:
-        check = False
+        
+    #else:
+        #check = False
         #turn_led(blue_pin)
-        turn_led(green_pin)
+        #turn_led(green_pin)
     
 
 
