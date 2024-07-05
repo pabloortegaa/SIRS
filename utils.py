@@ -27,7 +27,7 @@ def detectObject_proximity(pin):
     # 1 --> no object
     if state==0:
       print("Object Detected")
-      sleep(1)
+    
       return True
     else:
         return False
@@ -67,13 +67,19 @@ def apply_yolo(image):
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-def turn_led(led_pin): 
+def turn_led_on(led_pin): 
     GPIO.setup(led_pin ,GPIO.OUT)
     print("LED on")
     GPIO.output(led_pin,GPIO.HIGH)
-    sleep(1)
+
+
+
+
+def turn_led_off(led_pin):
+    GPIO.setup(led_pin ,GPIO.OUT)
     print("LED off")
     GPIO.output(led_pin,GPIO.LOW)
+
 
 
 async def waiting(led_pin):

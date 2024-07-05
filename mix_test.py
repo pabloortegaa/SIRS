@@ -9,7 +9,7 @@ yellow_proximity_pin = 12
 brown_proximity_pin = 13
 
 #LEDS pins
-blue_pin = 4
+blue_pin = 27
 yellow_pin = 14
 brown_pin = 17
 green_pin = 22
@@ -52,27 +52,30 @@ while True:
             trash_class = apply_yolo(frame)            
             if trash_class != "":
                     if trash_class == "blue":
-                        turn_led(blue_pin)
-                        while not detectObject_proximity(blue_proximity_pin):
-                            turn_led(blue_pin)
-                             
-                        turn_led(green_pin)
+                        turn_led_on(blue_pin)
+                        while  True:
+                            if detectObject_proximity(blue_proximity_pin):
+                            #turn_led_on(blue_pin)
+                            
+                                turn_led_off(blue_pin)
+                                turn_led_on(green_pin)
+                                break
                     elif trash_class == "yellow":
                         
-                        turn_led(yellow_pin)
+                        #turn_led_on(yellow_pin)
                         while not detectObject_proximity(yellow_proximity_pin):
-                            turn_led(yellow_pin)
-                        turn_led(green_pin)
+                            turn_led_on(yellow_pin)
+                        turn_led_on(green_pin)
                               
                     else: #brown
-                        turn_led(brown_pin)
+                        #turn_led_on(brown_pin)
                         while not detectObject_proximity(brown_proximity_pin):
-                            turn_led(brown_pin)
-                        turn_led(green_pin)
+                            turn_led_on(brown_pin)
+                        turn_led_on(green_pin)
 
 
                     
-                                        #turn_led(white_pin)
+                                        #turn_led_on(white_pin)
                     
                     object_detected = False
     else: 

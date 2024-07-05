@@ -16,7 +16,7 @@ async def waiting(led_pin):
 
 async def main():
 
-    blue_pin = 4
+    blue_pin = 27
     yellow_pin = 14
     brown_pin = 17
     green_pin = 22
