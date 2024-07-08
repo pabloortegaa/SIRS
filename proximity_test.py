@@ -22,14 +22,14 @@ def detectObject():
     # 1 --> no object
     if state==0:
       print("Object Detected")
-      time.sleep(1)
+      time.sleep(0.1)
       return True
     return False
 
 
 # test module
 if __name__ == '__main__':
-  pin = 26
+  pin = 12
   initialInductive(pin)
   while True:
     detectObject()

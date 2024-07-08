@@ -1,6 +1,22 @@
 from time import sleep
 import RPi.GPIO as GPIO
 from utils import *
+from rpi_ws281x import *
+from stripp import strip
+
+
+#strip ledss
+empty = Color(0,0,0)
+blue = Color(0,0,255)
+green = Color(0, 255, 0)
+red = Color(255, 0, 0)
+orange = Color(102, 51, 0)
+yellow = Color(255, 255, 0)
+white = Color(255, 255, 255)
+strip_leds =  strip()
+strip_leds.clear_all()
+
+
 
 #Proximity sensors pins
 detect_object_sensor_pin = 26
@@ -52,32 +68,47 @@ while True:
             trash_class = apply_yolo(frame)            
             if trash_class != "":
                     if trash_class == "blue":
+                        
                         turn_led_on(blue_pin)
+                        print(blue)
+                        strip_leds.set_color_all(Color(0,0,255))
                         while  True:
                             if detectObject_proximity(blue_proximity_pin):
                             #turn_led_on(blue_pin)
-                            
+
                                 turn_led_off(blue_pin)
                                 turn_led_on(green_pin)
+                                strip_leds.set_color_all(green)
                                 break
                     elif trash_class == "yellow":
                         
-                        #turn_led_on(yellow_pin)
-                        while not detectObject_proximity(yellow_proximity_pin):
-                            turn_led_on(yellow_pin)
-                        turn_led_on(green_pin)
+                        turn_led_on(yellow_pin)
+                        strip_leds.set_color_all(yellow)
+                        while True:
+                            if detectObject_proximity(yellow_proximity_pin):
+                                turn_led_off(yellow_pin)
+                                turn_led_on(green_pin)
+                                strip_leds.set_color_all(green)
+                                break
                               
                     else: #brown
-                        #turn_led_on(brown_pin)
-                        while not detectObject_proximity(brown_proximity_pin):
-                            turn_led_on(brown_pin)
-                        turn_led_on(green_pin)
+                        turn_led_on(brown_pin)
+                        strip_leds.set_color_all(orange)
+                        while True:
+                            if detectObject_proximity(brown_proximity_pin):
+                                turn_led_off(brown_pin)
+                                turn_led_on(green_pin)
+                                strip_leds.set_color_all(green)
+                                break
 
 
                     
-                                        #turn_led_on(white_pin)
+                                
                     
                     object_detected = False
+                    sleep(2)
+                    turn_led_off(green_pin)
+                    strip_leds.clear_all()
     else: 
         if  detectObject_proximity(detect_object_sensor):
             object_detected = True
