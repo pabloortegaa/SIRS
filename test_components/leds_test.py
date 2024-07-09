@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 import time
-from proximity_test import initialInductive, detectObject
+from test_components.proximity_test import initialInductive, detectObject
 
 blue_pin = 4
 yellow_pin = 14

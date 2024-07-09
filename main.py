@@ -2,7 +2,7 @@ from time import sleep
 import RPi.GPIO as GPIO
 from utils import *
 from rpi_ws281x import *
-from stripp import strip
+from strip_led import strip
 
 
 #strip ledss
@@ -51,16 +51,8 @@ cap = cv2.VideoCapture(0)
 acc = 0
 
 while True:
-    ret, frame = cap.read()
-    #acc +=1
-    
-    
-    #cv2.imshow('frame', frame)
-    
-        
-
+    ret, frame = cap.read()      
     if object_detected:
-        print("aqui2")
         if acc > 1:
             acc-=1
         if acc == 1:
@@ -80,6 +72,10 @@ while True:
                                 turn_led_on(green_pin)
                                 strip_leds.set_color_all(green)
                                 break
+                            elif detectObject_proximity(yellow_proximity) or detectObject_proximity(brown_proximity):
+                                strip_leds.set_color_all(red)
+                                break
+
                     elif trash_class == "yellow":
                         
                         turn_led_on(yellow_pin)
@@ -89,6 +85,9 @@ while True:
                                 turn_led_off(yellow_pin)
                                 turn_led_on(green_pin)
                                 strip_leds.set_color_all(green)
+                                break
+                            elif detectObject_proximity(blue_proximity) or detectObject_proximity(brown_proximity):
+                                strip_leds.set_color_all(red)
                                 break
                               
                     else: #brown
@@ -100,6 +99,7 @@ while True:
                                 turn_led_on(green_pin)
                                 strip_leds.set_color_all(green)
                                 break
+                            
 
 
                     
@@ -109,10 +109,19 @@ while True:
                     sleep(2)
                     turn_led_off(green_pin)
                     strip_leds.clear_all()
+            else: #object not recognized
+                print("not recognized, do it again")
+                for i in range(3):
+                    strip_leds.set_color_all(white)
+                    sleep(0.5)
+                    strip_leds.set_color_all(empty)
+                    sleep(0.5)
+
     else: 
         if  detectObject_proximity(detect_object_sensor):
             object_detected = True
             print("something detected")
+            strip_leds.set_color_all(white)
             acc = 30 
 
 
